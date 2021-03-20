@@ -23,8 +23,8 @@ class SecOnionISO(object):
         self.output = _output
         self.expected_sha1 = '14E842E39EDBB55A104263281CF25BF88A2E9D67'.lower()
         self.mount_point = tempfile.mkdtemp()
-        self.working_dir = '/tmp/tmpiapjqob8/' #tempfile.mkdtemp()
-        self.initrd = '/tmp/tmp2mlsonj1/' #tempfile.mkdtemp()
+        self.working_dir = tempfile.mkdtemp()
+        self.initrd = tempfile.mkdtemp()
         self.keys_folder = tempfile.mkdtemp()
         self.config = None
         self.ssh_pub = None
