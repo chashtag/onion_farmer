@@ -4,7 +4,7 @@ pt_password: '0ni0nus3r'
 web_user: onionuser@somewhere.invalid
 web_password: 0n10nus3r
 
-
+home_net: 10.0.0.0/8,192.168.0.0/16,172.16.0.0/12
 configure_hosts_file: true
 inject_ssh_keys: true
 
