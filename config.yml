@@ -1,0 +1,38 @@
+so_user: onionuser
+pt_password: '0ni0nus3r'
+
+web_user: onionuser@somewhere.invalid
+web_password: 0n10nus3r
+
+
+configure_hosts_file: true
+inject_ssh_keys: true
+
+
+manager:
+  - hostname: manager
+    ip: 10.0.0.1
+    dns: 10.0.0.1
+    mgmt_device: eth0
+    is_manager: true
+sensor:
+  - hostname: sensor1
+    ip: 10.0.0.20
+    dns: 10.0.0.1
+    custom_part_table: virt_host
+    mgmt_device: eth0
+    monitor_devices:
+      - eth1
+      - eth2
+  - hostname: sensor2
+    ip: 10.0.0.21
+    dns: 10.0.0.1
+    mgmt_device: eth0
+    monitor_devices:
+      - eth1
+      - eth2
+search:
+  - hostname: search1
+    ip: 10.0.0.10
+    dns: 10.0.0.1
+    mgmt_device: eth0

@@ -1,0 +1,71 @@
+# Original work by Security-Onion-Solutions
+# URL: https://github.com/Security-Onion-Solutions/securityonion
+# Modified by: Matt Cundari
+
+#manager
+
+#bug_fix
+manager_ip_mask={{ config.manager[0].ip }}/24
+
+#is_reinstall=true
+is_airgap=true
+
+TESTING=true
+INTERWEBS=AIRGAP
+ADMINUSER={{ config.so_user }}
+ADMINPASS1={{ config.pt_password }}
+ADMINPASS2={{ config.pt_password }}
+ALLOW_CIDR=0.0.0.0/0
+ALLOW_ROLE=a
+BASICZEEK=2 
+BASICSURI=2
+# BLOGS=
+# BNICS=eth0
+ZEEKVERSION=ZEEK
+# CURCLOSEDAYS=
+# EVALADVANCED=BASIC
+GRAFANA=1
+# HELIXAPIKEY=
+HNMANAGER=10.0.0.0/8,192.168.0.0/16,172.16.0.0/12
+HNSENSOR=inherit
+HOSTNAME={{ hostname }}
+install_type=MANAGER
+# LSINPUTBATCHCOUNT=
+# LSINPUTTHREADS=
+# LSPIPELINEBATCH=
+# LSPIPELINEWORKERS=
+MANAGERADV=BASIC
+MANAGERUPDATES=1
+MDNS=127.0.0.1
+MGATEWAY={{ gateway }}
+MIP={{ ip }}
+MMASK=24
+MNIC=mgmt_device
+MSEARCH=no.dns
+# MSRV=
+# MTU=
+NIDS=Suricata
+# NODE_ES_HEAP_SIZE=
+# NODE_LS_HEAP_SIZE=
+NODESETUP=NODEBASIC
+NSMSETUP=BASIC
+NODEUPDATES=MANAGER
+# OINKCODE=
+OSQUERY=1
+# PATCHSCHEDULEDAYS=
+# PATCHSCHEDULEHOURS=
+PATCHSCHEDULENAME=auto
+PLAYBOOK=1
+# REDIRECTHOST=
+REDIRECTINFO=IP
+RULESETUP=ETOPEN
+# SHARDCOUNT=
+SKIP_REBOOT=0
+SOREMOTEPASS1={{ config.pt_password }}
+SOREMOTEPASS2={{ config.pt_password }}
+STRELKA=1
+THEHIVE=1
+WAZUH=1
+WEBUSER={{ config.web_user }}
+WEBPASSWD1={{ config.web_password }}
+WEBPASSWD2={{ config.web_password }}

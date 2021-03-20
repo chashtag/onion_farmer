@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo -u root ssh-keyscan -H {{ config.manager[0].ip }} | sudo -u root tee -a /root/.ssh/known_hosts
+sudo /home/{{ config.so_user }}/SecurityOnion/setup/so-setup iso answer_file
+
+echo Install finished, probably should reboot!
