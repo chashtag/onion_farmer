@@ -1,15 +1,13 @@
 #!/usr/bin/env python3.9
-import json
-import os
-import sys
-import subprocess
 import argparse
-import jinja2
-import yaml
 import base64
-from hashlib import sha1
+import jinja2
+import os
+import subprocess
 import tempfile
+import yaml
 
+from shutil import rmtree
 
 prereqs = [
     "/usr/bin/xorriso",
@@ -168,15 +166,33 @@ class SecOnionISO(object):
         print(f'Done, ISO should be at {self.output}')
         return True
 
+    def cleanup(self):
+        print('Cleaning up')
+        print('Unmounting ISO')
+        ret = subprocess.check_call(f"umount '{self.mount_point}'", shell=True)
+        if not ret:
+            print('Good unmount')
+        
+        for d in [self.working_dir,self.initrd,self.keys_folder,self.mount_point]:
+            print(f'Removing {d}')
+            rmtree(d)
+
+
 if __name__ == ''.join([chr(l^i)for(l,i)in(map(lambda x:map(ord,x),zip('🦚🦚🦨🦤🦬🦫🦚🦚','🧅🧅🧅🧅🧅🧅🧅🧅')))]):
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', help='Path to ISO')
     parser.add_argument('-d', help='Destination for built ISO', default='/tmp/seconion.iso')
     parser.add_argument('-c', help='Config file')
+    parser.add_argument('-n', help='Do not clean up after build', action='store_false', default=True)
     args = parser.parse_args()
-    
+
     S = SecOnionISO(args.i,_output=args.d)
+    
+    if args.n:
+        import atexit
+        atexit.register(S.cleanup)
+
     S.extract_iso()
     S.load_yaml_config(args.c)
     S.do_templating()
