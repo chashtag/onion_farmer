@@ -8,36 +8,44 @@ home_net: 10.0.0.0/8,192.168.0.0/16,172.16.0.0/12
 configure_hosts_file: true
 inject_ssh_keys: true
 
+config.enable_grub_console: true
+
+default_network: &dn
+  netmask: 255.255.255.0
+  gateway: 10.0.0.1
+  dns: 127.0.0.1
+  dns_search: no.dns
+  mgmt_device: eth0
+
+sensor_defaults: &sd
+  mgmt_device: eth0
+  suri_procs: 4
+  zeek_procs: 4
+  custom_part_table: virt_host
+  monitor_devices:
+    - eth1
+    - eth2
 
 manager:
-  - hostname: manager
-    ip: 10.0.0.1
-    dns: 127.0.0.1
+  - <<: *dn
+    hostname: manager
+    ip: 10.0.0.2
+    custom_part_table: virt_host_multi_drive
     mgmt_device: eth0
     is_manager: true
-    dns_search: no.dns
+
 sensor:
-  - hostname: sensor1
-    ip: 10.0.0.20
-    dns: 127.0.0.1
-    custom_part_table: virt_host
-    mgmt_device: eth0
-    suri_procs: 4
-    zeek_procs: 4
-    monitor_devices:
-      - eth1
-      - eth2
-  - hostname: sensor2
+  - <<: *dn
+    <<: *sd
+    hostname: sensor1
+    ip: 10.0.0.20    
+  - <<: *dn
+    <<: *sd
+    hostname: sensor2
     ip: 10.0.0.21
-    dns: 127.0.0.1
-    mgmt_device: eth0
-    suri_procs: 4
-    zeek_procs: 4
-    monitor_devices:
-      - eth1
-      - eth2
+  
 search:
-  - hostname: search1
+  - <<: *dn
+    hostname: search1
     ip: 10.0.0.10
-    dns: 127.0.0.1
-    mgmt_device: eth0
+    custom_part_table: virt_host

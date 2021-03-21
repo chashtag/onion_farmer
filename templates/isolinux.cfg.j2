@@ -66,28 +66,28 @@ menu separator # insert an empty line
 label linux
   menu label Install {{ host.hostname }}
   kernel vmlinuz
-  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg
+  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg {% if config.enable_grub_console is defined and config.enable_grub_console%}console=tty0 console=ttyS0,115200n8{% endif %}
 {% endfor %}
 
 {% for host in config.search%}
 label linux
   menu label Install {{ host.hostname }}
   kernel vmlinuz
-  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg
+  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg {% if config.enable_grub_console is defined and config.enable_grub_console%}console=tty0 console=ttyS0,115200n8{% endif %}
 {% endfor %}
 
 {% for host in config.sensor%}
 label linux
   menu label Install {{ host.hostname }}
   kernel vmlinuz
-  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg
+  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks_{{ host.hostname }}.cfg {% if config.enable_grub_console is defined and config.enable_grub_console%}console=tty0 console=ttyS0,115200n8{% endif %}
 {% endfor %}
 
 menu separator # insert an empty line
 label check
   menu label ^Install Security Onion 2.3.30 - No automation
   kernel vmlinuz
-  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks.cfg quiet
+  append initrd=initrd.img inst.stage2=hd:LABEL=CentOS\x207\x20x86_64 ks=file:///ks.cfg quiet {% if config.enable_grub_console is defined and config.enable_grub_console%}console=tty0 console=ttyS0,115200n8{% endif %}
 
 menu separator # insert an empty line
 
