@@ -1,0 +1,16 @@
+zerombr
+clearpart --all --drives=vda --initlabel
+bootloader --location=mbr --driveorder=vda
+part biosboot --fstype=biosboot --size=1 --ondisk=vda
+part /boot --asprimary --fstype=xfs --size=500 --ondisk=vda
+part pv.1 --size 1 --grow --fstype=xfs --ondrive=vda
+volgroup system pv.1
+
+part pv.2 --size 1 --grow --fstype=xfs --ondrive=vda
+volgroup vgnsm pv.2
+
+logvol swap --vgname system --size=8192 --name=swap
+logvol /tmp --fstype xfs --vgname system --size=2000 --name=tmp --fsoptions="nodev,nosuid,noexec"
+logvol / --fstype xfs --vgname system --size=67000 --name=root
+
+logvol /nsm --fstype xfs --vgname vgnsm --grow --size=1 --name=nsm
