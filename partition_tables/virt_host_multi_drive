@@ -6,7 +6,7 @@ part /boot --asprimary --fstype=xfs --size=500 --ondisk=vda
 part pv.1 --size 1 --grow --fstype=xfs --ondrive=vda
 volgroup system pv.1
 
-part pv.2 --size 1 --grow --fstype=xfs --ondrive=vda
+part pv.2 --size 1 --grow --fstype=xfs --ondrive=vdb
 volgroup vgnsm pv.2
 
 logvol swap --vgname system --size=8192 --name=swap
