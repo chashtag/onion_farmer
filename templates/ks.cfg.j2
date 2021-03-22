@@ -442,8 +442,8 @@ chmod -R 700 /root/.ssh
 
 {% if config.inject_ssh_keys is defined and config.inject_ssh_keys %}
 
-echo "{{ config.keys.public_key }}" > /root/.ssh/so.key.pub
-echo "{{ config.keys.private_key }}" | base64 -d > /root/.ssh/so.key {# as b64 #}
+echo "{{ keys.public_key }}" > /root/.ssh/so.key.pub
+echo "{{ keys.private_key }}" | base64 -d > /root/.ssh/so.key {# as b64 #}
 echo >> /root/.ssh/so.key
 
 
@@ -459,7 +459,7 @@ useradd -m --uid 947  --gid 947 --home-dir /home/soremote soremote
 mkdir /home/soremote/.ssh
 chmod 700 /home/soremote/.ssh
 
-echo "{{ config.keys.public_key }}" > /home/soremote/.ssh/authorized_keys
+echo "{{ keys.public_key }}" > /home/soremote/.ssh/authorized_keys
 chmod 0600 /home/soremote/.ssh/authorized_keys
 chown -R soremote:soremote /home/soremote/.ssh
 {% endif %}

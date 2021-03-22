@@ -101,7 +101,7 @@ class SecOnionISO(object):
         print('Generating ssh keys')
         if not subprocess.check_call(f'ssh-keygen -f {self.keys_folder}/sokey -t rsa -b 4096 -N "" 1>/dev/null',shell=True):
             self.ssh_priv = base64.b64encode(open(f'{self.keys_folder}/sokey').read().encode('utf-8')).decode('utf-8')
-            self.ssh_pub = open(f'{self.keys_folder}/sokey.pub').read()
+            self.ssh_pub = open(f'{self.keys_folder}/sokey.pub').read().strip()
         print('Good generation')
         return True
 
@@ -115,16 +115,16 @@ class SecOnionISO(object):
             if not (self.ssh_pub and self.ssh_pub):
                 self.gen_ssh()
 
-        j2.globals.update({'keys':{
-            "public_key": self.ssh_pub,
-            "private_key": self.ssh_priv,
-        }})
-
+        print(self.config)
         print('Rendering autosetup.cfg')
         _t = j2.get_template('auto_setup.j2')
         self.auto_setup = base64.b64encode(_t.render(config=self.config).encode('utf-8')).decode('utf-8')
-        j2.globals.update({'auto_setup':self.auto_setup})
         print('Done with autosetup.cfg')
+        
+        j2.globals.update({'auto_setup':self.auto_setup, 'keys':{
+            "public_key": self.ssh_pub,
+            "private_key": self.ssh_priv,
+        }})        
         
         print('Rendering isolinux.cfg')
         with open(f"{self.working_dir}/isolinux.cfg",'w') as f:
