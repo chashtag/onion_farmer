@@ -5,7 +5,7 @@
 #search
 
 #bug_fix
-manager_ip_mask={{ ip }}/24 {# this is not the manager ip, it is the hosts ip????? #}
+manager_ip_mask={{ ip }}/{{ netmask | netmask_to_cidr }} {# this is not the manager ip, it is the hosts ip????? #}
 
 #is_reinstall=true
 is_airgap=true
@@ -39,7 +39,7 @@ MANAGERUPDATES=1
 MDNS={% if dns_search is defined and dns_search %}{{ dns }}{% else %}127.0.0.1{% endif %}
 MGATEWAY={{ gateway }}
 MIP={{ ip }}
-MMASK=24
+MMASK={{ netmask | netmask_to_cidr }}
 MNIC={{ mgmt_device }}
 MSRV={{ config.manager[0].hostname }}
 MSRVIP={{ config.manager[0].ip }}

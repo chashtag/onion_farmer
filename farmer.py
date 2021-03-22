@@ -15,8 +15,11 @@ prereqs = [
     "/usr/share/syslinux/isohdpfx.bin"
 ]
 
+def netmask_to_cidr(netmask: str) -> int:
+    return sum(bin(int(x)).count('1') for x in netmask.split('.'))
+
 class SecOnionISO(object):
-    def __init__(self,_iso_path,_output='/tmp/seconion.iso'):
+    def __init__(self,_iso_path: str,_output: str='/tmp/seconion.iso'):
         self.iso_path = _iso_path if _iso_path.startswith('/') else f'./{_iso_path}'
         self.output = _output
         self.expected_sha1 = '14E842E39EDBB55A104263281CF25BF88A2E9D67'.lower()
@@ -35,7 +38,7 @@ class SecOnionISO(object):
             print('Good ISO')
 
 
-    def check_reqs(self):
+    def check_reqs(self) -> bool:
         good = True
         for x in prereqs:
             if not os.path.isfile(x):
@@ -48,7 +51,7 @@ class SecOnionISO(object):
         return True
 
 
-    def extract_iso(self):
+    def extract_iso(self) -> bool:
         print("Mounting ISO")
         
         ret = subprocess.check_call(f"mount -o loop '{self.iso_path}' '{self.mount_point}' 1>/dev/null", shell=True)
@@ -76,13 +79,13 @@ class SecOnionISO(object):
         return True
 
 
-    def verify_iso(self):
+    def verify_iso(self) -> bool:
         '''Quick SHA1 check to verify iso'''
         ret = subprocess.check_output(f'sha1sum "{self.iso_path}"', shell=True).decode('utf-8')
         return self.expected_sha1 in ret
 
 
-    def load_yaml_config(self, conf_file):
+    def load_yaml_config(self, conf_file) -> bool:
         '''Load a yaml based config file'''
         print('Loading config')
         try:
@@ -94,7 +97,7 @@ class SecOnionISO(object):
         return True
     
 
-    def gen_ssh(self):
+    def gen_ssh(self) -> bool:
         print('Generating ssh keys')
         if not subprocess.check_call(f'ssh-keygen -f {self.keys_folder}/sokey -t rsa -b 4096 -N "" 1>/dev/null',shell=True):
             self.ssh_priv = base64.b64encode(open(f'{self.keys_folder}/sokey').read().encode('utf-8')).decode('utf-8')
@@ -103,8 +106,10 @@ class SecOnionISO(object):
         return True
 
 
-    def do_templating(self):
+    def do_templating(self) -> bool:
         j2 = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="./templates"))
+        j2.filters.update({'netmask_to_cidr':netmask_to_cidr})
+
         
         if self.config.get('inject_ssh_keys'):
             if not (self.ssh_pub and self.ssh_pub):

@@ -1,5 +1,5 @@
 zerombr
-clearpart --all --drives=vda,vbd --initlabel
+clearpart --all --drives=vda,vdb --initlabel
 bootloader --location=mbr --driveorder=vda
 part biosboot --fstype=biosboot --size=1 --ondisk=vda
 part /boot --asprimary --fstype=xfs --size=500 --ondisk=vda
