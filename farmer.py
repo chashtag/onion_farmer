@@ -22,7 +22,7 @@ class SecOnionISO(object):
     def __init__(self,_iso_path: str,_output: str='/tmp/seconion.iso'):
         self.iso_path = _iso_path if _iso_path.startswith('/') else f'./{_iso_path}'
         self.output = _output
-        self.expected_sha1 = '14E842E39EDBB55A104263281CF25BF88A2E9D67'.lower()
+        self.expected_sha1 = 'e8f5a9aa23990df794611f9a178d88414f5da81c'
         self.mount_point = tempfile.mkdtemp()
         self.working_dir = tempfile.mkdtemp()
         self.initrd = tempfile.mkdtemp()
@@ -34,6 +34,7 @@ class SecOnionISO(object):
         print('Verifying checksum')    
         if not self.verify_iso():
             print('Not the ISO I was looking for')
+            exit(1)
         else:
             print('Good ISO')
 
