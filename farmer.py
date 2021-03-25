@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.9
+#!/usr/bin/env python3
 import argparse
 import base64
 import jinja2
@@ -22,7 +22,7 @@ class SecOnionISO(object):
     def __init__(self,_iso_path: str,_output: str='/tmp/seconion.iso'):
         self.iso_path = _iso_path if _iso_path.startswith('/') else f'./{_iso_path}'
         self.output = _output
-        self.expected_sha1 = 'e8f5a9aa23990df794611f9a178d88414f5da81c'
+        self.expected_sha1 = 'e8f5a9aa23990df794611f9a178d88414f5da81c' # 3.3.40 sha1
         self.mount_point = tempfile.mkdtemp()
         self.working_dir = tempfile.mkdtemp()
         self.initrd = tempfile.mkdtemp()
